@@ -1,0 +1,14 @@
+name: Test the application
+on: [ pull_request ]
+
+jobs:
+  build:
+    name: Test
+    runs-on: ubuntu-20.04
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: mvn clean verify -ntp
+      run: |
+          ./mvnw clean verify -ntp
