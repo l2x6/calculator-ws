@@ -1,3 +1,6 @@
 = Calculator JAX-WS container for testing WS clients
 
 Based on https://github.com/wildfly/quickstart/tree/main/helloworld-ws
+
+You can pass `-e ADD_TO_RESULT=1` to the container to get a service instance behaving slightly differently.
+This might be useful when testing multiple clients accessing distinct remote endpoints that implement the same interface.

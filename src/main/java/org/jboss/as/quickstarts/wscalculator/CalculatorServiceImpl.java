@@ -16,6 +16,8 @@
  */
 package org.jboss.as.quickstarts.wscalculator;
 
+import java.util.Optional;
+
 import javax.jws.WebService;
 
 /**
@@ -23,24 +25,29 @@ import javax.jws.WebService;
  */
 @WebService(serviceName = "CalculatorService", portName = "Calculator", name = "Calculator", endpointInterface = "org.jboss.as.quickstarts.wscalculator.CalculatorService", targetNamespace = CalculatorService.TARGET_NS)
 public class CalculatorServiceImpl implements CalculatorService {
+
+    /** You can pass {@code -e ADD_TO_RESULT=1} to the container to get a service instance behaving slightly differently.
+     * This might be useful when testing multiple clients accessing distinct remote endpoints that implement the same interface */
+    private static final int ADD_TO_RESULT = Integer.parseInt(Optional.ofNullable(System.getenv("ADD_TO_RESULT")).orElse("0"));
+
     @Override
     public int subtract(int intA, int intB) {
-        return intA - intB;
+        return intA - intB + ADD_TO_RESULT;
     }
 
     @Override
     public int divide(int intA, int intB) {
-        return intA / intB;
+        return intA / intB + ADD_TO_RESULT;
     }
 
     @Override
     public int add(int intA, int intB) {
-        return intA + intB;
+        return intA + intB + ADD_TO_RESULT;
     }
 
     @Override
     public int multiply(int intA, int intB) {
-        return intA * intB;
+        return intA * intB + ADD_TO_RESULT;
     }
 
 }
