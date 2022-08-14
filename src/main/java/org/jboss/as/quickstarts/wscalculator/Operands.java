@@ -16,32 +16,48 @@
  */
 package org.jboss.as.quickstarts.wscalculator;
 
-import javax.jws.WebMethod;
-import javax.jws.WebService;
+import java.util.Objects;
 
-/**
- */
-@WebService(targetNamespace = CalculatorService.TARGET_NS)
-public interface CalculatorService {
+public class Operands {
+    private int a;
+    private int b;
 
-    public static final String TARGET_NS = "http://www.jboss.org/eap/quickstarts/wscalculator/Calculator";
+    public Operands(){
+    }
 
-    @WebMethod
-    public int subtract(int intA, int intB);
+    public Operands(int a, int b) {
+        super();
+        this.a = a;
+        this.b = b;
+    }
 
-    @WebMethod
-    public int divide(int intA, int intB);
+    public int getA() {
+        return a;
+    }
+    @Override
+    public int hashCode() {
+        return Objects.hash(a, b);
+    }
 
-    @WebMethod
-    public int add(int intA, int intB);
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        Operands other = (Operands) obj;
+        return a == other.a && b == other.b;
+    }
 
-    /**
-     * @param operands a non-primitive parameter
-     * @return
-     */
-    @WebMethod
-    public Result addOperands(Operands operands);
-
-    @WebMethod
-    public int multiply(int intA, int intB);
+    public void setA(int a) {
+        this.a = a;
+    }
+    public int getB() {
+        return b;
+    }
+    public void setB(int b) {
+        this.b = b;
+    }
 }

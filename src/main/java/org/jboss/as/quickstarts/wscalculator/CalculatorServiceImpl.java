@@ -46,8 +46,14 @@ public class CalculatorServiceImpl implements CalculatorService {
     }
 
     @Override
+    public Result addOperands(Operands operands) {
+        return new Result(operands.getA() + operands.getB() + ADD_TO_RESULT, operands);
+    }
+
+    @Override
     public int multiply(int intA, int intB) {
         return intA * intB + ADD_TO_RESULT;
     }
+
 
 }

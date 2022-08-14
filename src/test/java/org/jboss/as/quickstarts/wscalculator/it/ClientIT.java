@@ -25,6 +25,8 @@ import javax.xml.ws.WebServiceException;
 
 import org.assertj.core.api.Assertions;
 import org.jboss.as.quickstarts.wscalculator.CalculatorService;
+import org.jboss.as.quickstarts.wscalculator.Operands;
+import org.jboss.as.quickstarts.wscalculator.Result;
 import org.junit.Test;
 
 /**
@@ -64,6 +66,7 @@ public class ClientIT {
         Assertions.assertThat(calculatorService).isNotNull();
 
         Assertions.assertThat(calculatorService.add(2,3)).isEqualTo(5);
+        Assertions.assertThat(calculatorService.addOperands(new Operands(6, 4))).isEqualTo(new Result(10, new Operands(6, 4)));
         Assertions.assertThat(calculatorService.subtract(6,4)).isEqualTo(2);
         Assertions.assertThat(calculatorService.multiply(6,7)).isEqualTo(42);
         Assertions.assertThat(calculatorService.divide(10,2)).isEqualTo(5);
