@@ -67,6 +67,13 @@
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
+            <dependency>
+                <groupId>org.wildfly</groupId>
+                <artifactId>wildfly-jaxws-client-bom</artifactId>
+                <version>${version.server.bom}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 
@@ -114,6 +121,11 @@
         <dependency>
             <groupId>org.jboss.spec.javax.xml.ws</groupId>
             <artifactId>jboss-jaxws-api_2.3_spec</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.cxf</groupId>
+            <artifactId>cxf-rt-ws-security</artifactId>
+            <scope>provided</scope>
         </dependency>
 
         <dependency>
