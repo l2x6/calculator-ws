@@ -12,6 +12,9 @@ jobs:
     steps:
     - uses: actions/checkout@v2
 
+    - name: Set up QEMU
+      uses: docker/setup-qemu-action@v1
+
     - name: mvn clean package -ntp
       run: |
           ./mvnw clean package -ntp
@@ -22,6 +25,7 @@ jobs:
       with:
         image: calculator-ws
         tags: ${{ github.ref_name }}
+        archs: amd64, arm64
         containerfiles: |
           ./Dockerfile
 
