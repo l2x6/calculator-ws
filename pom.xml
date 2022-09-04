@@ -191,6 +191,13 @@
                             <location>org.wildfly:wildfly-galleon-pack:26.1.1.Final</location>
                         </feature-pack>
                     </feature-packs>
+                    <packaging-scripts>
+                        <packaging-script>
+                            <scripts>
+                                <script>${project.build.scriptSourceDirectory}/prune-standalone.cli</script>
+                            </scripts>
+                        </packaging-script>
+                    </packaging-scripts>
                 </configuration>
                 <executions>
                     <execution>
