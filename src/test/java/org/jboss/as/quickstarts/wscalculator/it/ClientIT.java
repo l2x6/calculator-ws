@@ -18,6 +18,7 @@ package org.jboss.as.quickstarts.wscalculator.it;
 
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.Arrays;
 
 import javax.xml.namespace.QName;
 import javax.xml.soap.MessageFactory;
@@ -80,6 +81,9 @@ public class ClientIT {
 
         Assertions.assertThat(calculatorService.add(2, 3)).isEqualTo(5);
         Assertions.assertThat(calculatorService.addOperands(new Operands(6, 4))).isEqualTo(new Result(10, new Operands(6, 4)));
+        Assertions.assertThat(calculatorService.addNumberAndOperands(2, new Operands(6, 4))).isEqualTo(12);
+        Assertions.assertThat(calculatorService.addArray(2, 3, 4)).isEqualTo(9);
+        Assertions.assertThat(calculatorService.addList(Arrays.asList(2, 3, 4))).isEqualTo(9);
         Assertions.assertThat(calculatorService.subtract(6, 4)).isEqualTo(2);
         Assertions.assertThat(calculatorService.multiply(6, 7)).isEqualTo(42);
         Assertions.assertThat(calculatorService.divide(10, 2)).isEqualTo(5);

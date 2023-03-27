@@ -16,7 +16,10 @@
  */
 package org.jboss.as.quickstarts.wscalculator;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.IntStream;
+import java.util.stream.Stream;
 
 import javax.jws.WebService;
 
@@ -48,6 +51,26 @@ public class CalculatorServiceImpl implements CalculatorService {
     @Override
     public Result addOperands(Operands operands) {
         return new Result(operands.getA() + operands.getB() + ADD_TO_RESULT, operands);
+    }
+
+    @Override
+    public int addNumberAndOperands(int a, Operands operands) {
+        return a + operands.getA() + operands.getB() + ADD_TO_RESULT;
+    }
+
+    @Override
+    public int addArray(int... array) {
+        if (array == null || array.length == 0) {
+            return 0;
+        }
+        return IntStream.of(array).sum() + ADD_TO_RESULT;
+    }
+
+    @Override
+    public int addList(List<Integer> list) {
+        return list.stream()
+                .mapToInt(Integer::intValue)
+                .sum() + ADD_TO_RESULT;
     }
 
     @Override
