@@ -16,6 +16,8 @@
  */
 package org.jboss.as.quickstarts.wscalculator;
 
+import java.util.List;
+
 import javax.jws.WebMethod;
 import javax.jws.WebService;
 
@@ -41,6 +43,28 @@ public interface CalculatorService {
      */
     @WebMethod
     public Result addOperands(Operands operands);
+
+    /**
+     * @param a the first operand
+     * @param operands the second two operands
+     * @return sum of a, {@link Operands#getA()} and {@link Operands#getB()}
+     */
+    @WebMethod
+    public int addNumberAndOperands(int a, Operands operands);
+
+    /**
+     * @param array an array of numbers to sum
+     * @return sum of the given {@code array} elements
+     */
+    @WebMethod
+    public int addArray(int... array);
+
+    /**
+     * @param list a list of numbers to sum
+     * @return sum of the given {@code list} elements
+     */
+    @WebMethod
+    public int addList(List<Integer> list);
 
     @WebMethod
     public int multiply(int intA, int intB);
