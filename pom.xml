@@ -85,6 +85,16 @@
             <artifactId>jakarta.enterprise.cdi-api</artifactId>
             <scope>provided</scope>
         </dependency>
+        <dependency>
+            <groupId>org.jboss.ws</groupId>
+            <artifactId>jbossws-api</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.jboss.ejb3</groupId>
+            <artifactId>jboss-ejb3-ext-api</artifactId>
+            <scope>provided</scope>
+        </dependency>
 
         <!-- Test dependencies -->
         <dependency>
@@ -214,6 +224,16 @@
                         <phase>pre-integration-test</phase>
                         <configuration>
                             <javaOpts>-Djboss.http.port=8088</javaOpts>
+                            <addUser>
+                                <users>
+                                    <user>
+                                        <applicationUser>true</applicationUser>
+                                        <username>tester</username>
+                                        <password>s3cr3t!</password>
+                                        <groups>app-users</groups>
+                                    </user>
+                                </users>
+                            </addUser>
                         </configuration>
                     </execution>
                     <execution>

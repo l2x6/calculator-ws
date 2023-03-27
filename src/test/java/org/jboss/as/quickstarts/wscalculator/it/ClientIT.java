@@ -19,6 +19,7 @@ package org.jboss.as.quickstarts.wscalculator.it;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Arrays;
+import java.util.Map;
 
 import javax.xml.namespace.QName;
 import javax.xml.soap.MessageFactory;
@@ -30,6 +31,7 @@ import javax.xml.soap.SOAPHeader;
 import javax.xml.soap.SOAPHeaderElement;
 import javax.xml.soap.SOAPMessage;
 import javax.xml.soap.SOAPPart;
+import javax.xml.ws.BindingProvider;
 import javax.xml.ws.Service;
 import javax.xml.ws.WebServiceException;
 
@@ -37,11 +39,13 @@ import org.assertj.core.api.Assertions;
 import org.jboss.as.quickstarts.wscalculator.CalculatorService;
 import org.jboss.as.quickstarts.wscalculator.Operands;
 import org.jboss.as.quickstarts.wscalculator.Result;
+import org.jboss.as.quickstarts.wscalculator.auth.basic.BasicAuthCalculatorService;
 import org.jboss.as.quickstarts.wscalculator.bare.BareCalculatorService;
 import org.jboss.as.quickstarts.wsscalculator.WssCalculatorService;
 import org.junit.Test;
 
 import com.sun.xml.ws.api.message.Headers;
+import com.sun.xml.ws.client.ClientTransportException;
 import com.sun.xml.ws.developer.WSBindingProvider;
 import com.sun.xml.ws.fault.ServerSOAPFaultException;
 
@@ -126,6 +130,46 @@ public class ClientIT {
 
     }
 
+
+    @Test
+    public void basicAuth() throws MalformedURLException {
+
+        final long deadline = System.currentTimeMillis() + 10_000L;
+        Service service = null;
+        while (true) {
+            try {
+                service = Service.create(new URL(BASE_URI + "/calculator-ws/BasicAuthCalculatorService?wsdl"),
+                        new QName(BasicAuthCalculatorService.TARGET_NS, BasicAuthCalculatorService.class.getSimpleName()));
+                break;
+            } catch (WebServiceException e) {
+                if (System.currentTimeMillis() < deadline) {
+                    /* wait and retry */
+                    try {
+                        Thread.sleep(500);
+                    } catch (InterruptedException e1) {
+                        Thread.currentThread().interrupt();
+                    }
+                } else {
+                    throw e;
+                }
+            }
+        }
+        final BasicAuthCalculatorService calculatorService = service.getPort(BasicAuthCalculatorService.class);
+        Assertions.assertThat(calculatorService).isNotNull();
+
+        /* Make sure that anonymous request fails */
+        Assertions.assertThatExceptionOfType(ClientTransportException.class)
+                .isThrownBy(() -> calculatorService.securedAdd(0, 0))
+                 .withMessageContaining("The server sent HTTP status code 401: Unauthorized");
+
+        /* Now set the proper credentials and make sure that it succeeds */
+        Map<String, Object> ctx = ((BindingProvider)calculatorService).getRequestContext();
+        ctx.put(BindingProvider.USERNAME_PROPERTY, "tester");
+        ctx.put(BindingProvider.PASSWORD_PROPERTY, "s3cr3t!");
+
+        Assertions.assertThat(calculatorService.securedAdd(7,8)).isEqualTo(15);
+
+    }
 
     @Test
     public void wss() throws MalformedURLException, SOAPException {
