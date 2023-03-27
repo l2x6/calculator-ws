@@ -1,0 +1,24 @@
+<web-app version="3.1" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd">
+
+    <security-role>
+        <role-name>app-users</role-name>
+    </security-role>
+
+    <security-constraint>
+         <web-resource-collection>
+                <web-resource-name>BasicAuthCalculatorService</web-resource-name>
+                <url-pattern>/BasicAuthCalculatorService</url-pattern>
+                <http-method>POST</http-method>
+         </web-resource-collection>
+         <auth-constraint>
+                <role-name>app-users</role-name>
+         </auth-constraint>
+    </security-constraint>
+
+   <login-config>
+      <auth-method>BASIC</auth-method>
+      <realm-name>ApplicationRealm</realm-name>
+   </login-config>
+
+</web-app>

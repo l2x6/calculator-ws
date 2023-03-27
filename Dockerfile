@@ -9,4 +9,4 @@ EXPOSE 8080
 
 # Set the default command to run on boot
 # This will boot WildFly in the standalone mode and bind to all interface
-ENTRYPOINT ["/opt/jboss/wildfly/bin/standalone.sh", "-b", "0.0.0.0"]
+ENTRYPOINT ["/bin/sh", "-c", "/opt/jboss/wildfly/bin/add-user.sh -a -u \"$APP_USER\" -p \"$APP_PASSWORD\" -g app-users && /opt/jboss/wildfly/bin/standalone.sh -b 0.0.0.0"]
