@@ -5,6 +5,8 @@ Based on https://github.com/wildfly/quickstart/tree/main/helloworld-ws
 == Services
 
 * http://localhost:8080/calculator-ws/CalculatorService?wsdl
+* http://localhost:8080/calculator-ws/BasicAuthCalculatorService?wsdl
+* http://localhost:8080/calculator-ws/BareCalculatorService?wsdl
 * http://localhost:8080/calculator-ws/WssCalculatorService?wsdl
 
 == Configuration
@@ -14,7 +16,11 @@ Based on https://github.com/wildfly/quickstart/tree/main/helloworld-ws
 You can pass `-e ADD_TO_RESULT=1` to the container to get a service instance behaving slightly differently.
 This might be useful when testing multiple clients accessing distinct remote endpoints that implement the same interface.
 
+=== `BASIC_AUTH_USER` and `BASIC_AUTH_PASSWORD` (optional)
+
+You can use these to set the credentials for HTTP BASIC authentication on `BasicAuthCalculatorService`.
+
 === `WSS_USER` and `WSS_PASSWORD`
 
-You can use these to set password of the `WssCalculatorService`.
+You can use these to set password of `WssCalculatorService`.
 
