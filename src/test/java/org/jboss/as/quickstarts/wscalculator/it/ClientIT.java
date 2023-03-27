@@ -37,6 +37,7 @@ import org.assertj.core.api.Assertions;
 import org.jboss.as.quickstarts.wscalculator.CalculatorService;
 import org.jboss.as.quickstarts.wscalculator.Operands;
 import org.jboss.as.quickstarts.wscalculator.Result;
+import org.jboss.as.quickstarts.wscalculator.bare.BareCalculatorService;
 import org.jboss.as.quickstarts.wsscalculator.WssCalculatorService;
 import org.junit.Test;
 
@@ -89,6 +90,42 @@ public class ClientIT {
         Assertions.assertThat(calculatorService.divide(10, 2)).isEqualTo(5);
 
     }
+
+
+    @Test
+    public void bare() throws MalformedURLException {
+
+        final long deadline = System.currentTimeMillis() + 10_000L;
+        Service service = null;
+        while (true) {
+            try {
+                service = Service.create(new URL(BASE_URI + "/calculator-ws/BareCalculatorService?wsdl"),
+                        new QName(BareCalculatorService.TARGET_NS, BareCalculatorService.class.getSimpleName()));
+                break;
+            } catch (WebServiceException e) {
+                if (System.currentTimeMillis() < deadline) {
+                    /* wait and retry */
+                    try {
+                        Thread.sleep(500);
+                    } catch (InterruptedException e1) {
+                        Thread.currentThread().interrupt();
+                    }
+                } else {
+                    throw e;
+                }
+            }
+
+        }
+        final BareCalculatorService calculatorService = service.getPort(BareCalculatorService.class);
+
+        Assertions.assertThat(calculatorService).isNotNull();
+
+        Assertions.assertThat(calculatorService.echo(2)).isEqualTo(2);
+        Assertions.assertThat(calculatorService.addOperands(new Operands(6, 4))).isEqualTo(new Result(10, new Operands(6, 4)));
+        Assertions.assertThat(calculatorService.addArray(2, 3, 4)).isEqualTo(9);
+
+    }
+
 
     @Test
     public void wss() throws MalformedURLException, SOAPException {
