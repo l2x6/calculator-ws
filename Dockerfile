@@ -17,6 +17,8 @@
 
 FROM eclipse-temurin:11
 COPY target/server /opt/jboss/wildfly
+# While building the calculator-ws module locally, it will set local file handler for logging
+RUN sed -i "s#handler\.FILE\.fileName=.*#handler.FILE.fileName=/opt/jboss/wildfly/standalone/log/server.log#g" /opt/jboss/wildfly/standalone/configuration/logging.properties
 
 # Ensure signals are forwarded to the JVM process correctly for graceful shutdown
 ENV LAUNCH_JBOSS_IN_BACKGROUND true
@@ -26,6 +28,12 @@ ENV BASIC_AUTH_PASSWORD=""
 
 # Expose the ports we're interested in
 EXPOSE 8080
+
+# Enable non-root users https://docs.openshift.com/container-platform/4.12/openshift_images/create-images.html#use-uid_create-images
+USER root
+RUN chgrp -R 0 /opt/jboss/wildfly/standalone
+RUN chmod -R g=u /opt/jboss/wildfly/standalone
+USER 1001
 
 # Set the default command to run on boot
 # This will boot WildFly in the standalone mode and bind to all interface
