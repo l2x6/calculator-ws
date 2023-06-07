@@ -18,12 +18,35 @@ package org.jboss.as.quickstarts.wscalculator;
 
 import java.util.Objects;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlType;
+
+@XmlAccessorType(XmlAccessType.FIELD)
+@XmlType(name = "result", propOrder = {
+    "operands",
+    "result",
+    "even"
+})
 public class Result {
+
+    /**
+     * The defaulValue serves the sole purpose to be able to test {@code wsdl2java}'s {@code -xjc-Xdv} parameter
+     * when generating classes from the WSDL of the {@link CalculatorService}
+     */
+    @XmlElement(defaultValue = "42")
     private int result;
+
+    /**
+     * Have some boolean parameter to be able to test {@code wsdl2java}'s {@code -xjc-Xboolean} parameter
+     * when generating classes from the WSDL of the {@link CalculatorService}
+     */
+    private boolean even;
 
     private Operands operands;
 
-    public Result(){
+    public Result() {
     }
 
     public Result(int result, Operands operands) {
@@ -38,6 +61,14 @@ public class Result {
 
     public void setResult(int result) {
         this.result = result;
+    }
+
+    public boolean isEven() {
+        return even;
+    }
+
+    public void setEven(boolean even) {
+        this.even = even;
     }
 
     public Operands getOperands() {
