@@ -27,15 +27,11 @@ import javax.xml.bind.annotation.XmlType;
 @XmlType(name = "result", propOrder = {
     "operands",
     "result",
-    "even"
+    "even",
+    "theAnswer"
 })
 public class Result {
 
-    /**
-     * The defaulValue serves the sole purpose to be able to test {@code wsdl2java}'s {@code -xjc-Xdv} parameter
-     * when generating classes from the WSDL of the {@link CalculatorService}
-     */
-    @XmlElement(defaultValue = "42")
     private int result;
 
     /**
@@ -43,6 +39,13 @@ public class Result {
      * when generating classes from the WSDL of the {@link CalculatorService}
      */
     private boolean even;
+
+    /**
+     * The defaulValue serves the sole purpose to be able to test {@code wsdl2java}'s {@code -xjc-Xdv} parameter
+     * when generating classes from the WSDL of the {@link CalculatorService}
+     */
+    @XmlElement(defaultValue = "42")
+    private String theAnswer;
 
     private Operands operands;
 
@@ -77,6 +80,14 @@ public class Result {
 
     public void setOperands(Operands operands) {
         this.operands = operands;
+    }
+
+    public String getTheAnswer() {
+        return theAnswer;
+    }
+
+    public void setTheAnswer(String theAnswer) {
+        this.theAnswer = theAnswer;
     }
 
     @Override
